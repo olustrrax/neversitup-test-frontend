@@ -3,14 +3,14 @@ import TodoForm from './todo-form'
 import { createClient } from '@/utils/supabase/client'
 import { signOut } from '@/app/lib/actions'
 import { useState, useCallback, useEffect, useMemo } from 'react'
-import Image from 'next/image'
 import { Todo } from './interface'
 import TodoRemove from './todo-remove'
+
 export default function TodoPage() {
 	const supabase = createClient()
 	const [todos, setTodo] = useState<Todo[]>([])
 	const [selectTodo, setSelectTodo] = useState<Todo | undefined>(undefined)
-	const [isOpen, setOpen] = useState(false)
+	const [isOpen, setOpen] = useState<boolean>(false)
 
 	const getTodo = useCallback(async () => {
 		const { data, error, status } = await supabase
@@ -28,10 +28,6 @@ export default function TodoPage() {
 		getTodo()
 	}, [getTodo])
 
-	const handleSignOut = () => {
-		signOut()
-	}
-
 	const onRemove = async (id: string) => {
 		const { error } = await supabase.from('todo').delete().eq('id', id)
 		if (error) {
@@ -42,6 +38,11 @@ export default function TodoPage() {
 
 	const onSelect = (todo: Todo) => {
 		setSelectTodo(todo)
+		setOpen(true)
+	}
+
+	const onCreate = () => {
+		setSelectTodo(undefined)
 		setOpen(true)
 	}
 
@@ -65,19 +66,7 @@ export default function TodoPage() {
 							<p className="2xl">Title: {todo.title}</p>
 							<p>{todo.description}</p>
 						</div>
-
-						<a
-							className="absolute top-0 right-0 cursor-pointer"
-							onClick={() => onRemove(todo.id!)}
-						>
-							<Image
-								src="/icons/x-mark.png"
-								alt="remove"
-								width={20}
-								height={20}
-							/>
-						</a>
-						<TodoRemove id={todo.id!} title={todo.title} remove={onRemove} />
+						<TodoRemove id={todo.id!} title={todo.title!} remove={onRemove} />
 					</div>
 				))
 			) : (
@@ -93,15 +82,12 @@ export default function TodoPage() {
 			/>
 
 			<div className="flex justify-center mt-20">
-				<button
-					onClick={() => setOpen(true)}
-					className="w-52 rounded-md text-gray-900"
-				>
+				<button onClick={onCreate} className="w-52 rounded-md text-gray-900">
 					+ Create
 				</button>
 			</div>
 			<div className="flex pt-20 justify-flex-end">
-				<a className="w-full text-right text-gray-900" onClick={handleSignOut}>
+				<a className="w-full text-right text-gray-900" onClick={signOut}>
 					Sign out
 				</a>
 			</div>

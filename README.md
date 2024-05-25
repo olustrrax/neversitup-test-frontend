@@ -1,4 +1,50 @@
-# Getting Started
+# To Do App 
+Using Next.js 14 and Supabase
+
+## Project Structure
+```java
+neversitup-test-frontend/
+├── app/
+│   ├── todo/
+│   │    ├── interface.ts
+│   │    ├── page.tsx
+│   │    ├── todo-form.tsx
+│   │    ├── todo-remove.tsx
+│   ├── error/
+│   │    └── page.tsx
+│   ├── lib/
+│   │    └── actions.ts
+│   ├── page.tsx
+│   └── layout.tsx
+── utils/
+│   ├── supabase/
+│   │    ├── client.ts
+│   │    ├── server.ts
+│   │    ├── middleware.ts
+├── public/
+│   ├── icons/
+│   └── favicon.ico
+├── styles/
+│   ├── globals.css
+├── supabase/
+│   └── migration/
+├── README.md
+├── package.json
+├── tsconfig.json
+└── .env
+
+```
+- `app/`: The following file conventions are used to define routes and handle metadata in the app router.
+- `public/`: Static assets.
+- `styles/`: Stylesheets.
+- `supabase/`: Supabase configuration & migration file.
+- `utils/`: Package configuration such as Supabase, middleware.
+- `README.md`: Main documentation.
+- `package.json`: Project dependencies and scripts.
+- `tsconfig.json`: TypeScript configuration.
+- `.env`: Environment variables
+
+## Getting started
 
 ### 1. Create a project Supabase
 1.1) [Create a new project](https://supabase.com/dashboard) in the Supabase Dashboard.

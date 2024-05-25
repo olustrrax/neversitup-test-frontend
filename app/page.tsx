@@ -3,7 +3,7 @@
 import { login, signUp } from '@/app/lib/actions'
 import { useState } from 'react'
 export default function Page() {
-	const [state, setState] = useState('Login')
+	const [state, setState] = useState<string>('Login')
 
 	const handleSubmit = (value: FormData) => {
 		if (state == 'Login') {

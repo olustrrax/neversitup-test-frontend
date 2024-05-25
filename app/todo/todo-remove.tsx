@@ -13,7 +13,7 @@ interface Prop {
 	remove: (id: string) => void
 }
 export default function TodoRemove({ id, title, remove }: Prop) {
-	const [open, setOpen] = useState(false)
+	const [open, setOpen] = useState<boolean>(false)
 	const handleRemove = (id: string) => {
 		remove(id)
 		setOpen(false)

@@ -16,16 +16,15 @@ interface Prop {
 	onSave: (value: Todo) => void
 }
 export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
-	const [title, setTitle] = useState('')
+	const [title, setTitle] = useState<string | undefined>(undefined)
 	const [id, setId] = useState<string | undefined>(undefined)
-	const [description, setDescription] = useState('')
+	const [description, setDescription] = useState<string | undefined>(undefined)
 
 	const onClear = useCallback(() => {
 		setId(undefined)
-		setTitle('')
-		setDescription('')
-		setOpen(false)
-	}, [setOpen])
+		setTitle(undefined)
+		setDescription(undefined)
+	}, [])
 
 	useEffect(() => {
 		if (todo) {
@@ -39,7 +38,7 @@ export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
 
 	return (
 		<Transition show={isOpen}>
-			<Dialog className="relative z-10" onClose={onClear}>
+			<Dialog className="relative z-10" onClose={setOpen}>
 				<TransitionChild
 					enter="ease-out duration-300"
 					enterFrom="opacity-0"
@@ -123,7 +122,7 @@ export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
 									<button
 										type="button"
 										className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-										onClick={onClear}
+										onClick={() => setOpen(false)}
 										data-autofocus
 									>
 										Cancel
