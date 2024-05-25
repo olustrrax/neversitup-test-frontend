@@ -2,8 +2,11 @@
 
 ### 1. Create a project Supabase
 1.1) [Create a new project](https://supabase.com/dashboard) in the Supabase Dashboard.
+
 1.2) Setup the database schema [click](https://supabase.com/docs/guides/getting-started/tutorials/with-nextjs?queryGroups=language&language=ts#set-up-the-database-schema)
+
 1.3) Create `todo` schema on [SQL Editor](https://supabase.com/dashboard/project/_/sql/new)
+
 ```
 
 CREATE TABLE "public"."todo" (
