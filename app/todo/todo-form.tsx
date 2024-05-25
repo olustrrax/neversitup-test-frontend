@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, FormEventHandler } from 'react'
 import {
 	Dialog,
 	DialogPanel,
@@ -16,25 +16,33 @@ interface Prop {
 	onSave: (value: Todo) => void
 }
 export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
-	const [title, setTitle] = useState<string | undefined>(undefined)
 	const [id, setId] = useState<string | undefined>(undefined)
-	const [description, setDescription] = useState<string | undefined>(undefined)
-
+	const [title, setTitle] = useState<string>('')
+	const [description, setDescription] = useState<string>('')
 	const onClear = useCallback(() => {
 		setId(undefined)
-		setTitle(undefined)
-		setDescription(undefined)
+		setTitle('')
+		setDescription('')
 	}, [])
 
 	useEffect(() => {
 		if (todo) {
 			setId(todo?.id)
-			setTitle(todo?.title)
-			setDescription(todo?.description)
+			setTitle(todo.title)
+			setDescription(todo.description)
 		} else {
 			onClear()
 		}
 	}, [onClear, todo])
+
+	const validateForm = () => {
+		onSave({
+			id,
+			description,
+			title,
+		})
+		onClear()
+	}
 
 	return (
 		<Transition show={isOpen}>
@@ -62,7 +70,7 @@ export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
 						>
 							<DialogPanel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
 								<div className="flex w-full bg-white px-4 pb-4 pt-5">
-									<form className="w-full">
+									<form className="w-full" onSubmit={validateForm}>
 										<div className="w-full justify-center">
 											<label
 												htmlFor="title"
@@ -70,7 +78,7 @@ export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
 											>
 												Title
 											</label>
-											<div className="mt-2">
+											<div className="m-2">
 												<input
 													id="title"
 													name="title"
@@ -92,7 +100,7 @@ export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
 													Description
 												</label>
 											</div>
-											<div className="mt-2">
+											<div className="m-2">
 												<textarea
 													id="description"
 													name="description"
@@ -103,30 +111,23 @@ export default function TodoForm({ todo, isOpen, setOpen, onSave }: Prop) {
 												/>
 											</div>
 										</div>
+										<div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+											<button
+												type="submit"
+												className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-grey-500 sm:ml-3 sm:w-auto"
+											>
+												{id ? 'Edit' : 'Create'}
+											</button>
+											<button
+												type="button"
+												className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+												onClick={() => setOpen(false)}
+												data-autofocus
+											>
+												Cancel
+											</button>
+										</div>
 									</form>
-								</div>
-								<div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-									<button
-										type="button"
-										className="inline-flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-grey-500 sm:ml-3 sm:w-auto"
-										onClick={() =>
-											onSave({
-												id,
-												description,
-												title,
-											})
-										}
-									>
-										{id ? 'Edit' : 'Create'}
-									</button>
-									<button
-										type="button"
-										className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
-										onClick={() => setOpen(false)}
-										data-autofocus
-									>
-										Cancel
-									</button>
 								</div>
 							</DialogPanel>
 						</TransitionChild>

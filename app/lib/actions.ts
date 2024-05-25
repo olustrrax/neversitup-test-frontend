@@ -42,20 +42,3 @@ export async function signUp(formData: FormData) {
 	revalidatePath('/', 'layout')
 	redirect('/todo')
 }
-
-
-export async function signOut() {
-  const supabase = createClient()
-
-  // Check if a user's logged in
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
-	console.log(user)
-  if (user) {
-    await supabase.auth.signOut()
-  }
-
-  revalidatePath('/', 'layout')
-	redirect('/')
-}

@@ -1,7 +1,6 @@
 'use client'
 import TodoForm from './todo-form'
 import { createClient } from '@/utils/supabase/client'
-import { signOut } from '@/app/lib/actions'
 import { useState, useCallback, useEffect, useMemo } from 'react'
 import { Todo } from './interface'
 import TodoRemove from './todo-remove'
@@ -66,7 +65,7 @@ export default function TodoPage() {
 							<p className="2xl">Title: {todo.title}</p>
 							<p>{todo.description}</p>
 						</div>
-						<TodoRemove id={todo.id!} title={todo.title!} remove={onRemove} />
+						<TodoRemove id={todo.id!} title={todo.title} remove={onRemove} />
 					</div>
 				))
 			) : (
@@ -87,9 +86,18 @@ export default function TodoPage() {
 				</button>
 			</div>
 			<div className="flex pt-20 justify-flex-end">
-				<a className="w-full text-right text-gray-900" onClick={signOut}>
-					Sign out
-				</a>
+				<form
+					className="w-full text-right text-gray-900 cursor-pointer"
+					action="/auth/signout"
+					method="post"
+				>
+					<button
+						className="border-0 text-right text-gray-900 cursor-pointer"
+						type="submit"
+					>
+						Sign out
+					</button>
+				</form>
 			</div>
 		</div>
 	)
