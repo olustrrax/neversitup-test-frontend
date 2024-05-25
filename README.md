@@ -71,6 +71,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY
 ```
 
 ### 3. Install packages
+Recommended Node v.20.13.1
 
 ```bash
 npm install
